@@ -1,0 +1,13 @@
+{
+  "extends": "stylelint-config-wordpress/scss",
+  "rules": {
+    "indentation": 4,
+    "color-hex-case": "upper",
+    "color-hex-length": "long",
+    "max-empty-lines": 2,
+    "at-rule-empty-line-before": "always",
+    "selector-type-no-unknown": [true, {
+        "ignoreTypes": ["/^_/"]
+  }]
+  }
+}
