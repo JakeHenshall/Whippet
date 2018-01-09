@@ -24,9 +24,9 @@ function whippet_settings_page() {
 
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h3><span><?php _e( 'Export Settings' ); ?></span></h3>
+				<h3><span><?php esc_html_e( 'Export Settings' ); ?></span></h3>
 				<div class="inside">
-					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.' ); ?></p>
+					<p><?php esc_html_e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="whippet_action" value="export_settings" /></p>
 						<p>
@@ -38,9 +38,9 @@ function whippet_settings_page() {
 			</div><!-- .postbox -->
 
 			<div class="postbox">
-				<h3><span><?php _e( 'Import Settings' ); ?></span></h3>
+				<h3><span><?php esc_html_e( 'Import Settings' ); ?></span></h3>
 				<div class="inside">
-					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.' ); ?></p>
+					<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
 						<p>
 							<input type="file" name="import_file"/>
@@ -64,9 +64,9 @@ function whippet_settings_page() {
  */
 function whippet_process_settings_export() {
 
-	if ( isset( $_POST['submit'] ) ) {
+	if ( isset( $_POST['submit'] ) ) { // Input var okay.
 
-		if ( ! wp_verify_nonce( $_POST['whippet_export_nonce'], 'whippet_export_nonce' ) ) {
+		if ( ! wp_verify_nonce( wp_unslash( $_POST['whippet_export_nonce'] ), 'whippet_export_nonce' ) ) { // Input var okay.
 			return;
 		}
 
@@ -94,7 +94,7 @@ function whippet_process_settings_export() {
 			'whippet_core'      => $whippet_core,
 			'whippet_analytics' => $whippet_analytics,
 		);
-		$data            = json_encode( $whippet_options );
+		$data            = wp_json_encode( $whippet_options );
 
 		ignore_user_abort( true );
 
@@ -103,7 +103,7 @@ function whippet_process_settings_export() {
 		header( 'Content-Disposition: attachment; filename=whippet-settings-export-' . date( 'm-d-Y' ) . '.json' );
 		header( 'Expires: 0' );
 
-		echo json_encode( $data, JSON_UNESCAPED_SLASHES );
+		echo wp_json_encode( $data, JSON_UNESCAPED_SLASHES );
 		exit;
 	}
 }
@@ -114,9 +114,9 @@ add_action( 'admin_init', 'whippet_process_settings_export' );
  */
 function whippet_process_settings_import() {
 
-	if ( isset( $_POST['submit'] ) ) {
+	if ( isset( $_POST['submit'] ) ) { // Input var okay.
 
-		if ( ! wp_verify_nonce( $_POST['whippet_import_nonce'], 'whippet_import_nonce' ) ) {
+		if ( ! wp_verify_nonce( wp_unslash( $_POST['whippet_import_nonce'] ), 'whippet_import_nonce' ) ) { // Input var okay.
 			return;
 		}
 
@@ -124,16 +124,16 @@ function whippet_process_settings_import() {
 			return;
 		}
 
-		$extension = end( explode( '.', $_FILES['import_file']['name'] ) );
+		$extension = end( explode( '.', wp_unslash( $_FILES['import_file']['name'] ) ) ); // Input var okay.
 
-		if ( $extension != 'json' ) {
-			wp_die( __( 'Please upload a valid .json file' ) );
+		if ( 'json' !== $extension ) {
+			wp_die( esc_html_e( 'Please upload a valid .json file' ) );
 		}
 
-		$import_file = $_FILES['import_file']['tmp_name'];
+		$import_file = wp_unslash( $_FILES['import_file']['tmp_name'] ); // Input var okay.
 
 		if ( empty( $import_file ) ) {
-			wp_die( __( 'Please upload a file to import' ) );
+			wp_die( esc_html_e( 'Please upload a file to import' ) );
 		}
 		$whippet_options = get_option( 'whippet_options' );
 
@@ -145,9 +145,9 @@ function whippet_process_settings_import() {
 		$settings = json_decode( $obj, true );
 
 		foreach ( $settings as $key => $value ) {
-			if ( $key == 'whippet_core' ) {
+			if ( 'whippet_core' === $key ) {
 				add_option( 'whippet_options', $value );
-			} elseif ( $key == 'whippet_analytics' ) {
+			} elseif ( 'whippet_analytics' === $key ) {
 				foreach ( $value as $setting => $setting_value ) {
 					update_option( $setting, $setting_value );
 				}

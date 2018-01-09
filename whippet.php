@@ -32,7 +32,8 @@ function whippet_menu() {
 
 /**
  * Adding settings link
- * @param [type] $links [description]
+ *
+ * @param [type] $links [description].
  */
 function whippet_plugin_add_settings_link( $links ) {
 	$links = array_merge( array(
@@ -75,11 +76,11 @@ function whippet_admin_scripts() {
 add_action( 'admin_enqueue_scripts', 'whippet_admin_scripts' );
 
 // all plugin file includes.
-require plugin_dir_path( __FILE__ ) . '/inc/settings.php';
-require plugin_dir_path( __FILE__ ) . '/inc/functions.php';
-require plugin_dir_path( __FILE__ ) . '/inc/script-manager.php';
-require plugin_dir_path( __FILE__ ) . '/inc/save-ga-local.php';
-require plugin_dir_path( __FILE__ ) . '/inc/import-export.php';
+require plugin_dir_path( __FILE__ ) . '/inc/class-settings.php';
+require plugin_dir_path( __FILE__ ) . '/inc/class-functions.php';
+require plugin_dir_path( __FILE__ ) . '/inc/class-script-manager.php';
+require plugin_dir_path( __FILE__ ) . '/inc/class-save-ga-local.php';
+require plugin_dir_path( __FILE__ ) . '/inc/class-import-export.php';
 /**
  * Whippet pre-configuration
  * ============================================================================
