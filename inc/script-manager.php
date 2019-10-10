@@ -34,6 +34,7 @@ class Whippet {
 	 * Initilize entire machine
 	 */
 	function __construct() {
+
 		add_action( 'init', array( $this, 'load_configuration' ), 1 );
 
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
@@ -74,6 +75,20 @@ class Whippet {
 		}
 	}
 
+	private function get_visibility_asset( $type = '', $plugin = '' ) {
+		$state = true;
+
+		if ( isset( $this->gonzales_data['disabled'][ $type ][ $plugin ] ) ) {
+			$state = false;
+
+			if ( isset( $this->gonzales_data['enabled'][ $type ][ $plugin ][ $this->content_type ] ) ||
+				isset( $this->gonzales_data['enabled'][ $type ][ $plugin ]['here'] ) ) {
+				$state = true;
+			}
+		}
+
+		return $state;
+	}
 
 	/**
 	 * Check whether resource should be disabled or not.
@@ -83,10 +98,15 @@ class Whippet {
 	 * @return mixed
 	 */
 	public function unload_assets( $url, $handle ) {
-		$type   = ( current_filter() == 'script_loader_src' ) ? 'js' : 'css';
-		$source = ( current_filter() == 'script_loader_src' ) ? wp_scripts() : wp_styles();
+		// WordPress 5.0.0.
+		$polyfills_filter = 'wp-polyfill';
 
-		return ( $this->get_visibility( $type, $handle ) ? $url : false );
+		if ( substr( $handle, 0, strlen( $polyfills_filter ) ) !== $polyfills_filter ) {
+			$type = ( current_filter() == 'script_loader_src' ) ? 'js' : 'css';
+			$source = ( current_filter() == 'script_loader_src' ) ? wp_scripts() : wp_styles();
+
+			return ( $this->get_visibility_asset( $type, $handle ) ? $url : false);
+		}
 	}
 
 	/**
@@ -173,8 +193,8 @@ class Whippet {
 	 */
 	public function append_asset() {
 		if ( current_user_can( 'manage_options' ) ) {
-			wp_enqueue_style( 'whippet', plugins_url( '../css/style-whippet.css', __FILE__ ), array(), '2.0.1', false );
-			wp_enqueue_script( 'whippet', plugins_url( '../js/script.js', __FILE__ ), array(), '2.0.1', true );
+			wp_enqueue_style( 'whippet', plugins_url( '../dist/css/style-whippet.css', __FILE__ ), array(), '1.0.1', false );
+			wp_enqueue_script( 'whippet', plugins_url( '../dist/js/app.js', __FILE__ ), array(), '1.0.1', true );
 		}
 	}
 
@@ -318,7 +338,7 @@ class Whippet {
 		$wp_admin_bar->add_menu(
 			array(
 				'id'    => 'whippet',
-				'title' => esc_html__( 'Script Manager', 'Script Manager' ),
+				'title' => esc_html__( 'Script Manager', 'whippet' ),
 				'meta'  => array( 'class' => 'her-object' ),
 			)
 		);
@@ -482,9 +502,9 @@ class Whippet {
 			<td>
 			' . __( 'The Script Manager allows you to enable/disable CSS and JS files by a per page/post basis, as well as custom post types. Enabling some options may effect the appearance of your live site, so we recommend testing this locally or on a staging site first.', 'whippet' ) . '
             <br /><br />
-			' . __( 'If you run into trouble, you can always enable all options to reset the settings. Make sure to check out the <a href="https://malinois.io/">Whippet Docs</a> for more information', 'whippet' ) . '
+			' . __( 'If you run into trouble, you can always enable all options to reset the settings. Make sure to check out the <a href="https://whippetwp.com/">Whippet Docs</a> for more information', 'whippet' ) . '
 			</td>
-			
+
 		</tr>
 		</table>';
 
@@ -562,7 +582,7 @@ class Whippet {
 			</table>';
 		}
 
-		$out .= '<input type="submit" id="submit-whippet" value="' . __( 'Save changes' ) . '">';
+		$out .= '<input type="submit" id="submit-whippet" value="' . __( 'Save changes', 'whippet' ) . '">';
 		$out .= wp_nonce_field( 'whippet', 'whippetUpdate', true, false );
 		$out .= '<input type="hidden" name="currentURL" value="' . esc_url( $this->get_current_url() ) . '">
 			<input type="hidden" name="allAssets" value="' . filter_var( json_encode( $all_assets ), FILTER_SANITIZE_SPECIAL_CHARS ) . '">

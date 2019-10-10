@@ -4,7 +4,7 @@
  *
  * @category Whippet
  * @package  Whippet
- * @author   Malinois
+ * @author   Jake Henshall
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.hashbangcode.com/
  */
@@ -32,7 +32,7 @@ if ( empty( $_GET['tab'] ) ) {
 
 	<!-- Documentation Notice -->
 	<!-- <div class="notice notice-info">
-		<p><?php echo __( 'Documentation is comming soon :)', 'whippet' ); ?></p>
+		<p><?php echo __( 'Documentation is coming soon :)', 'whippet' ); ?></p>
 	</div> -->
 
 	<!-- Tab Navigation -->
@@ -69,21 +69,8 @@ if ( empty( $_GET['tab'] ) ) {
 	<?php } elseif ( 'support' === $_GET['tab'] ) { ?>
 
 	<h2>Support</h2>
-	<p>For plugin support and documentation, please visit <a href='https://malinois.io/' title='whippet' target='_blank' rel='noopener noreferrer'>Whippet Docs</a>.</p>
+	<p>For plugin support and documentation, please visit <a href='https://whippetwp.com/' title='whippet' target='_blank' rel='noopener noreferrer'>Whippet Docs</a>.</p>
 
 	<?php } ?>
-
-	<script>
-		tippy('.whippet-tooltip', {
-			animation: 'shift-away',
-			animateFill: false,
-			distance: 15,
-			placement: 'left',
-			size: 'big',
-			interactive: 'hover',
-			arrow: true,
-			arrowType: 'round',
-		});
-	</script>
 
 </div>

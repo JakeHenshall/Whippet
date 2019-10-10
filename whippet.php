@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name:  Whippet
- * Plugin URI:   https://malinois.io/whippet
+ * Plugin URI:   https://whippetwp.com/
  * Description:  Speed up your Website using Whippet
- * Version:      1.0.0
- * Author:       Malinois.io
- * Author URI:   https://malinois.io
+ * Version:      1.0.1
+ * Author:       Jake Henshall
+ * Author URI:   https://jake.hen.sh/all/
  * License:      GPL2
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:  wporg
+ * Text Domain:  whippet
  * Domain Path:  /languages
  */
 
@@ -32,12 +32,11 @@ function whippet_menu() {
 
 /**
  * Adding settings link
- *
- * @param [type] $links [description].
+ * @param [type] $links [description]
  */
 function whippet_plugin_add_settings_link( $links ) {
 	$links = array_merge( array(
-		'<a href="' . esc_url( admin_url( 'tools.php?page=whippet' ) ) . '">' . __( 'Settings', 'textdomain' ) . '</a>'
+		'<a href="' . esc_url( admin_url( 'tools.php?page=whippet' ) ) . '">' . __( 'Settings', 'whippet' ) . '</a>'
 	), $links );
 	return $links;
 }
@@ -67,20 +66,19 @@ function whippet_init_wp_filesystem() {
  * Plugin admin scripts.
  */
 function whippet_admin_scripts() {
-		wp_register_style( 'whippet-styles', plugins_url( '/css/style.css', __FILE__ ), array(), '0.0.1' );
+
+		wp_register_style( 'whippet-styles', plugins_url( '/dist/css/style.css', __FILE__ ), array(), '0.0.1' );
 		wp_enqueue_style( 'whippet-styles' );
-		wp_register_script( 'whippet-scripts', plugins_url( '/js/bundle.js', __FILE__ ), array(), '0.0.1' );
-		wp_enqueue_script( 'whippet-scripts' );
 
 }
 add_action( 'admin_enqueue_scripts', 'whippet_admin_scripts' );
 
 // all plugin file includes.
-require plugin_dir_path( __FILE__ ) . '/inc/class-settings.php';
-require plugin_dir_path( __FILE__ ) . '/inc/class-functions.php';
-require plugin_dir_path( __FILE__ ) . '/inc/class-script-manager.php';
-require plugin_dir_path( __FILE__ ) . '/inc/class-save-ga-local.php';
-require plugin_dir_path( __FILE__ ) . '/inc/class-import-export.php';
+require plugin_dir_path( __FILE__ ) . '/inc/settings.php';
+require plugin_dir_path( __FILE__ ) . '/inc/functions.php';
+require plugin_dir_path( __FILE__ ) . '/inc/script-manager.php';
+require plugin_dir_path( __FILE__ ) . '/inc/save-ga-local.php';
+require plugin_dir_path( __FILE__ ) . '/inc/import-export.php';
 /**
  * Whippet pre-configuration
  * ============================================================================

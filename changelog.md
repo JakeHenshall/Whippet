@@ -8,6 +8,15 @@ Removed - for now removed features.
 Fixed - for any bug fixes.
 Security - in case of vulnerabilities.
 
+## 1.0.1 - 29-12-2017
+### Added
+
+Completely Remove Comments
+
+### Changed
+Script Manager Fix (WordPress 5.0+)
+Disable the core-embed/wordpress block type (WordPress 5.0+)
+
 ## 1.0.0 - 22-12-2017
 ### Added
 

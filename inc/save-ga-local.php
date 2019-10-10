@@ -4,7 +4,7 @@
  *
  * @category Whippet
  * @package  Whippet
- * @author   Malinois
+ * @author   Jake Henshall
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.hashbangcode.com/
  */
@@ -71,11 +71,11 @@ function save_ga_locally_settings_page() {
 
 			<table class="form-table">
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Google Analytics Tracking ID', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Add in your UA-XXXXXXX-X' ); ?></th>
+					<th scope="row"><?php _e( 'Google Analytics Tracking ID', 'whippet' ); ?></th>
 					<td><input type="text" name="sgal_tracking_id" value="<?php echo $sgal_tracking_id; ?>" /></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Position of tracking code', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Adds the UA code to either header or footer' ); ?></th>
+					<th scope="row"><?php _e( 'Position of tracking code', 'whippet' ); ?></th>
 					<td>
 						<?php
 						$sgal_script_position = array( 'header', 'footer' );
@@ -85,23 +85,23 @@ function save_ga_locally_settings_page() {
 							echo $sgal_checked = ( $option === get_option( 'sgal_script_position' ) ) ? ' checked="checked"' : '';
 							echo ' />';
 							echo ucfirst( $option );
-							echo $sgal_script_default = ( $option === 'header' ) ? _e( ' (default)', 'save-ga-locally' ) : '';
+							echo $sgal_script_default = ( $option === 'header' ) ? _e( ' (default)', 'whippet' ) : '';
 							echo '<br>';
 						}
 						?>
 					</td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Use adjusted bounce rate?', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Adjusted Bounce Rate provides a more accurate picture into content consumption for websites that regularly produce content.' ); ?></th>
+					<th scope="row"><?php _e( 'Use adjusted bounce rate?', 'whippet' ); ?></th>
 					<td><input type="number" name="sgal_adjusted_bounce_rate" min="0" max="60" value="<?php echo $sgal_adjusted_bounce_rate; ?>" /></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Change enqueue order? (Default = 0)', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Change the order that the Google Script Get loaded in' ); ?></th>
+					<th scope="row"><?php _e( 'Change enqueue order? (Default = 0)', 'whippet' ); ?></th>
 					<td><input type="number" name="sgal_enqueue_order" min="0" value="<?php echo $sgal_enqueue_order; ?>" /></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Disable the Advertising Features in Google Analytics' ); ?></th>
-					<td><input type="checkbox" name="caos_disable_display_features" 
+					<th scope="row"><?php _e( 'Disable all <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features" target="_blank">display features functionality</a>?', 'whippet' ); ?></th>
+					<td><input type="checkbox" name="caos_disable_display_features"
 					<?php
 					if ( $caos_disable_display_features == 'on' ) {
 						echo 'checked = "checked"';}
@@ -109,8 +109,8 @@ function save_ga_locally_settings_page() {
  /></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anonymize IP</a>? (Required by law for some countries)', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Anonymizes the address as soon as technically feasible' ); ?></th>
-					<td><input type="checkbox" name="sgal_anonymize_ip" 
+					<th scope="row"><?php _e( 'Use <a href="https://support.google.com/analytics/answer/2763052?hl=en" target="_blank">Anonymize IP</a>? (Required by law for some countries)', 'whippet' ); ?></th>
+					<td><input type="checkbox" name="sgal_anonymize_ip"
 					<?php
 					if ( $sgal_anonymize_ip == 'on' ) {
 						echo 'checked = "checked"';}
@@ -118,8 +118,8 @@ function save_ga_locally_settings_page() {
  /></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Track logged in Administrators?', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Tracking your own visits from logged in Administrators.' ); ?></th>
-					<td><input type="checkbox" name="sgal_track_admin" 
+					<th scope="row"><?php _e( 'Track logged in Administrators?', 'whippet' ); ?></th>
+					<td><input type="checkbox" name="sgal_track_admin"
 					<?php
 					if ( $sgal_track_admin == 'on' ) {
 						echo 'checked = "checked"';}
@@ -127,8 +127,8 @@ function save_ga_locally_settings_page() {
  /></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'Remove script from wp-cron?', 'save-ga-locally' ); ?><?php echo analytic_tooltip( 'Stop automatically downloading the GA script' ); ?></th>
-					<td><input type="checkbox" name="caos_remove_wp_cron" 
+					<th scope="row"><?php _e( 'Remove script from wp-cron?', 'whippet' ); ?></th>
+					<td><input type="checkbox" name="caos_remove_wp_cron"
 					<?php
 					if ( $caos_remove_wp_cron == 'on' ) {
 						echo 'checked = "checked"';}
@@ -217,7 +217,7 @@ function add_ga_header_script() {
 	$sgal_anonymize_ip             = esc_attr( get_option( 'sgal_anonymize_ip' ) );
 	$caos_disable_display_features = esc_attr( get_option( 'caos_disable_display_features' ) );
 
-	echo '<!-- This site is running CAOS: Complete Analytics Optimization Suite for WordPress -->';
+	echo '<!-- This site is running Whippet: Whippet for WordPress -->';
 
 	echo "<script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -249,20 +249,4 @@ switch ( $sgal_script_position ) {
 	default:
 		add_action( 'wp_head', 'add_ga_header_script', $sgal_enqueue_order );
 		break;
-}
-
-/**
- * Print tooltip
- *
- * @param  [type] $link [description]
- * @return [type]       [description]
- */
-function analytic_tooltip( $link ) {
-	$var = '<a ';
-	if ( ! empty( $link ) ) {
-		$var .= "title='$link' ";
-	}
-		$var .= "class='whippet-tooltip'>?";
-	$var     .= '</a>';
-	return $var;
 }

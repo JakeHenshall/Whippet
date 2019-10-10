@@ -2,15 +2,15 @@
 
 Contributors: JaHe
 Plugin Name: Whippet
-Plugin URI: https://malinois.io/whippet/
-Tags: Speed, Optimisation, Google Analytics, Script Manager 
-Author URI: https://malinois.io/
+Plugin URI: https://whippetwp.com/
+Tags: Speed, Optimisation, Google Analytics, Script Manager, Speed, Performance, Disable Emoji, Remove Querystrings, Reduce HTTP Requests, Disable Embeds, Disable Gravatars, Whippet
+Author URI: https://whippetwp.com/
 Author: Jake Henshall
-Donate link: https://malinois.io/
+Donate link: https://whippetwp.com/
 Requires at least: 4.8
-Tested up to: 4.9.1
+Tested up to: 5.2.3
 Requires PHP: 5.6
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -23,7 +23,7 @@ Remove WordPress API from code if WP-JSON is disabled
 Disable Google Maps
 Disable WooCommerce scripts and CSS on non-WooCommerce pages
 Disable WooCommerce Reviews
-Defer Woocommerce Cart Fragments
+Defer WooCommerce Cart Fragments
 Remove WordPress API from header
 Disable self-pingbacks
 Disable emojis
@@ -70,6 +70,12 @@ This section describes how to install the plugin and get it working.
 4. Support Page
 
 == Changelog ==
+
+= 1.0.1 =
+* Completely Remove Comments
+* UX / UI Update
+* Script Manager Fix (WordPress 5.0+)
+* Disable the core-embed/wordpress block type (WordPress 5.0+)
 
 = 1.0.0 =
 * Initial Release of Whippet Speed Plugin.

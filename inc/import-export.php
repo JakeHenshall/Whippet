@@ -4,7 +4,7 @@
  *
  * @category Whippet
  * @package  Whippet
- * @author   Malinois
+ * @author   Jake Henshall
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.hashbangcode.com/
  */
@@ -24,23 +24,23 @@ function whippet_settings_page() {
 
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h3><span><?php esc_html_e( 'Export Settings' ); ?></span></h3>
+				<h3><span><?php _e( 'Export Settings', 'whippet' ); ?></span></h3>
 				<div class="inside">
-					<p><?php esc_html_e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.' ); ?></p>
+					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'whippet' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="whippet_action" value="export_settings" /></p>
 						<p>
 							<?php wp_nonce_field( 'whippet_export_nonce', 'whippet_export_nonce' ); ?>
-							<?php submit_button( __( 'Export' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Export', 'whippet' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 
 			<div class="postbox">
-				<h3><span><?php esc_html_e( 'Import Settings' ); ?></span></h3>
+				<h3><span><?php _e( 'Import Settings', 'whippet' ); ?></span></h3>
 				<div class="inside">
-					<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.' ); ?></p>
+					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'whippet' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
 						<p>
 							<input type="file" name="import_file"/>
@@ -48,7 +48,7 @@ function whippet_settings_page() {
 						<p>
 							<input type="hidden" name="whippet_action" value="import_settings" />
 							<?php wp_nonce_field( 'whippet_import_nonce', 'whippet_import_nonce' ); ?>
-							<?php submit_button( __( 'Import' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Import', 'whippet' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div><!-- .inside -->
@@ -64,9 +64,9 @@ function whippet_settings_page() {
  */
 function whippet_process_settings_export() {
 
-	if ( isset( $_POST['submit'] ) ) { // Input var okay.
+	if ( isset( $_POST['submit'] ) ) {
 
-		if ( ! wp_verify_nonce( wp_unslash( $_POST['whippet_export_nonce'] ), 'whippet_export_nonce' ) ) { // Input var okay.
+		if ( ! wp_verify_nonce( $_POST['whippet_export_nonce'], 'whippet_export_nonce' ) ) {
 			return;
 		}
 
@@ -94,7 +94,7 @@ function whippet_process_settings_export() {
 			'whippet_core'      => $whippet_core,
 			'whippet_analytics' => $whippet_analytics,
 		);
-		$data            = wp_json_encode( $whippet_options );
+		$data            = json_encode( $whippet_options );
 
 		ignore_user_abort( true );
 
@@ -103,7 +103,7 @@ function whippet_process_settings_export() {
 		header( 'Content-Disposition: attachment; filename=whippet-settings-export-' . date( 'm-d-Y' ) . '.json' );
 		header( 'Expires: 0' );
 
-		echo wp_json_encode( $data, JSON_UNESCAPED_SLASHES );
+		echo json_encode( $data, JSON_UNESCAPED_SLASHES );
 		exit;
 	}
 }
@@ -114,9 +114,9 @@ add_action( 'admin_init', 'whippet_process_settings_export' );
  */
 function whippet_process_settings_import() {
 
-	if ( isset( $_POST['submit'] ) ) { // Input var okay.
+	if ( isset( $_POST['submit'] ) ) {
 
-		if ( ! wp_verify_nonce( wp_unslash( $_POST['whippet_import_nonce'] ), 'whippet_import_nonce' ) ) { // Input var okay.
+		if ( ! wp_verify_nonce( $_POST['whippet_import_nonce'], 'whippet_import_nonce' ) ) {
 			return;
 		}
 
@@ -124,16 +124,16 @@ function whippet_process_settings_import() {
 			return;
 		}
 
-		$extension = end( explode( '.', wp_unslash( $_FILES['import_file']['name'] ) ) ); // Input var okay.
+		$extension = end( explode( '.', $_FILES['import_file']['name'] ) );
 
-		if ( 'json' !== $extension ) {
-			wp_die( esc_html_e( 'Please upload a valid .json file' ) );
+		if ( $extension != 'json' ) {
+			wp_die( __( 'Please upload a valid .json file', 'whippet' ) );
 		}
 
-		$import_file = wp_unslash( $_FILES['import_file']['tmp_name'] ); // Input var okay.
+		$import_file = $_FILES['import_file']['tmp_name'];
 
 		if ( empty( $import_file ) ) {
-			wp_die( esc_html_e( 'Please upload a file to import' ) );
+			wp_die( __( 'Please upload a file to import', 'whippet' ) );
 		}
 		$whippet_options = get_option( 'whippet_options' );
 
@@ -145,9 +145,9 @@ function whippet_process_settings_import() {
 		$settings = json_decode( $obj, true );
 
 		foreach ( $settings as $key => $value ) {
-			if ( 'whippet_core' === $key ) {
+			if ( $key == 'whippet_core' ) {
 				add_option( 'whippet_options', $value );
-			} elseif ( 'whippet_analytics' === $key ) {
+			} elseif ( $key == 'whippet_analytics' ) {
 				foreach ( $value as $setting => $setting_value ) {
 					update_option( $setting, $setting_value );
 				}
