@@ -90,7 +90,7 @@ whippet = {
                             whippet.helper.removeClass("g-disabled", sectionExcp);
                         } else if (checkedRadio && checkedRadio.value == 'regex') {
                             whippet.helper.addClass("g-disabled", sectionExcp);
-                            
+
                             if (sectionRegex) {
                                 whippet.helper.removeClass("g-disabled", sectionRegex);
                             }
