@@ -2,52 +2,56 @@
  * Tailwind
  */
 
-@tailwind base;
+ @tailwind base;
 
-@tailwind components;
+ @tailwind components;
 
-@tailwind utilities;
+ @tailwind utilities;
 
 $color_1: #fff;
 $color_2: #aaa;
 
+img {
+    border-style: none !important;
+}
+
 .whippet-admin {
-	h2 {
-		font-size: 24px;
-		line-height: normal;
-		margin: 25px 0 0;
-	}
+	// h2 {
+	// 	font-size: 24px;
+	// 	line-height: normal;
+	// 	margin: 25px 0 0;
+	// }
 	p.whippet-subheading {
-		font-size: 12px;
-		line-height: normal;
-		font-style: italic;
+		// font-size: 12px;
+		// line-height: normal;
+		// font-style: italic;
 		margin: 5px 0 0;
-		padding-bottom: 10px;
-		border-bottom: 1px solid #ddd;
+		// padding-bottom: 10px;
+		// border-bottom: 1px solid #ddd;
 	}
-	select {
-		min-width: 300px;
-	}
-	textarea {
-		min-width: 300px;
-		resize: both;
-		min-height: 150px;
-	}
-	.form-table {
-		th {
-			label {
-				vertical-align: top;
-			}
-		}
-	}
-	p.submit {
-		margin: 0;
-		padding: 0;
-		float: left;
-		.button {
-			margin: 10px 10px 0 0;
-		}
-	}
+	// select {
+	// 	min-width: 300px;
+	// }
+	// textarea {
+	// 	min-width: 300px;
+	// 	resize: both;
+	// 	min-height: 150px;
+	// }
+	// .form-table {
+	// 	th {
+	// 		label {
+	// 			vertical-align: top;
+	// 		}
+	// 	}
+	// }
+	// p.submit {
+	// 	margin: 0;
+	// 	padding: 0;
+	// 	float: left;
+	// 	.button {
+	// 		margin: 10px 10px 0 0;
+	// 	}
+	// }
 	#whippet-restore {
 		.button {
 			margin: 10px 10px 0 0;

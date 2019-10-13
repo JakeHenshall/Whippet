@@ -495,25 +495,23 @@ class Whippet {
 
 		$out = isset( $_POST['whippetUpdate'] ) ? '<script>document.addEventListener("DOMContentLoaded", function(event) { document.getElementById("wp-admin-bar-whippet").click(); });</script>' : '';
 
-		$out .= '<form id="whippet" class="whippet-panel" method="POST" style="display: none;">
-		<h1>' . __( 'Welcome to whippet', 'whippet' ) . '</h1>
-		<table class="whippet-info">
-		<tr>
-			<td>
-			' . __( 'The Script Manager allows you to enable/disable CSS and JS files by a per page/post basis, as well as custom post types. Enabling some options may effect the appearance of your live site, so we recommend testing this locally or on a staging site first.', 'whippet' ) . '
-            <br /><br />
-			' . __( 'If you run into trouble, you can always enable all options to reset the settings. Make sure to check out the <a href="https://whippetwp.com/">Whippet Docs</a> for more information', 'whippet' ) . '
-			</td>
+		$out .= '<form id="whippet" class="whippet-panel pt-4 pr-4 pb-8 pl-4 font-sans text-xs leading-relaxed fixed left-0 bottom-0 w-auto h-auto bg-gray-200 text-black overflow-scroll" method="POST" style="display: none;">
+		<h1 class="border-none font-sans m-0 p-0 align-baseline text-gray-800 font-2xl font-bold pb-4">' . __( 'Welcome to Whippet', 'whippet' ) . '</h1>
 
-		</tr>
-		</table>';
+		<div class="flex mb-4">
+			<div class="w-full">
+				' . __( 'The Script Manager allows you to enable/disable CSS and JS files by a per page/post basis, as well as custom post types. Enabling some options may effect the appearance of your live site, so we recommend testing this locally or on a staging site first.', 'whippet' ) . '
+				<br /><br />
+				' . __( 'If you run into trouble, you can always enable all options to reset the settings. Make sure to check out the <a href="https://whippetwp.com/">Whippet Docs</a> for more information', 'whippet' ) . '
+			</div>
+		</div>';
 
 		$all_assets    = array();
 		$content_types = $this->get_public_post_types();
 		krsort( $this->collection );
 
 		foreach ( $this->collection as $resource_type => $types ) {
-			$out .= '<h2>' . __( $resource_type, 'whippet' ) . '</h2>';
+			$out .= '<h2 class="border-none font-sans m-0 p-0 align-baseline text-gray-800 font-xs font-bold pb-2 uppercase">' . __( $resource_type, 'whippet' ) . '</h2>';
 
 			$out .= '<table class="whippet-table">
 				<thead>

@@ -22,7 +22,7 @@ public function whippet_settings() {
 	* Requests Primary Section
 	* @var [type]
 	*/
-	add_settings_section('whippet_options', 'Requests', array($this, 'whippet_options_callback'), 'whippet_options');
+	add_settings_section('whippet_options', '', array($this, 'whippet_options_callback'), 'whippet_options');
 
 	/**
 	* Disable Emojis
@@ -473,7 +473,7 @@ public function whippet_default_options() {
  * @return [type] [description]
  */
 public function whippet_options_callback() {
-	echo '<p class="whippet-subheading">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
+	echo '<p class="whippet-subheading text-xs leading-normal italic pb-2 border-b border-gray-300">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
 }
 
 /**
@@ -481,7 +481,7 @@ public function whippet_options_callback() {
  * @return [type] [description]
  */
 function whippet_tags_callback() {
-	echo '<p class="whippet-subheading">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
+	echo '<p class="whippet-subheading text-xs leading-normal italic pb-2 border-b border-gray-300">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
 }
 
 /**
@@ -489,7 +489,7 @@ function whippet_tags_callback() {
  * @return [type] [description]
  */
 function whippet_admin_callback() {
-	echo '<p class="whippet-subheading">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
+	echo '<p class="whippet-subheading text-xs leading-normal italic pb-2 border-b border-gray-300">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
 }
 
 /**
@@ -497,7 +497,7 @@ function whippet_admin_callback() {
  * @return [type] [description]
  */
 function whippet_misc_callback() {
-	echo '<p class="whippet-subheading">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
+	echo '<p class="whippet-subheading text-xs leading-normal italic pb-2 border-b border-gray-300">' . __( 'Select which performance options you would like to enable.', 'whippet' ) . '</p>';
 }
 
 /**
@@ -505,7 +505,7 @@ function whippet_misc_callback() {
  * @return [type] [description]
  */
 function whippet_woocommerce_callback() {
-	echo '<p class="whippet-subheading">' . __( 'Disable specific elements of WooCommerce.', 'whippet' ) . '</p>';
+	echo '<p class="whippet-subheading text-xs leading-normal italic pb-2 border-b border-gray-300">' . __( 'Disable specific elements of WooCommerce.', 'whippet' ) . '</p>';
 }
 
 /**

@@ -1,12 +1,19 @@
+/**
+ * Tailwind
+ */
+
+ @tailwind base;
+
+ @tailwind components;
+
+ @tailwind utilities;
+
 $color_1: #000;
 $color_2: #444;
 $color_3: #fff;
 $color_4: red;
 $color_5: #222;
 $color_6: #0073aa;
-$font_family_1: -apple-system, blinkMacsystemfont,'Segoe UI', roboto, oxygen-sans, ubuntu, cantarell, 'Helvetica Neue', sans-serif;
-$font_family_2: inherit;
-$font_family_3: monospace;
 $background_color_1: rgba(238, 238, 238, 0.1);
 $border_color_1: #0073aa #006799 #006799;
 
@@ -15,64 +22,40 @@ $border_color_1: #0073aa #006799 #006799;
 		cursor: pointer;
 	}
 }
+
+.font-xs {
+	font-size: 0.75rem !important;
+}
+
+.font-sm {
+	font-size: 0.875rem !important;
+}
+
+.font-base {
+	font-size: 1rem !important;
+}
+
+.font-lg {
+	font-size: 1.125rem !important;
+}
+
+.font-xl {
+	font-size: 1.25rem !important;
+}
+
+.font-2xl {
+	font-size: 1.5rem !important;
+}
+
+.font-3xl {
+	font-size: 1.875rem !important;
+}
+
 .whippet-panel {
-	position: fixed;
 	top: 32px;
-	left: 0;
-	bottom: 0;
-	width: auto;
-	height: auto;
-	background: #eee;
-	color: $color_1;
-	overflow: scroll;
-	padding: 1em 1em 2em 1em;
-	font-family: $font_family_1;
-	font-size: 14px;
-	line-height: 1.6842;
-	z-index: 1000000;
-	h1 {
-		border: 0;
-		font-family: $font_family_2;
-		font-style: inherit;
-		font-weight: inherit;
-		margin: 0;
-		outline: 0;
-		padding: 0;
-		vertical-align: baseline;
-		color: $color_2;
-		clear: both;
-		font-size: 28px;
-	}
-	h2 {
-		border: 0;
-		font-family: $font_family_2;
-		font-size: 100%;
-		font-style: inherit;
-		font-weight: inherit;
-		margin: 0;
-		outline: 0;
-		padding: 0;
-		vertical-align: baseline;
-		color: $color_2;
-		clear: both;
-		text-transform: uppercase;
-	}
-	h3 {
-		border: 0;
-		font-family: $font_family_2;
-		font-size: 100%;
-		font-style: inherit;
-		font-weight: inherit;
-		margin: 0;
-		outline: 0;
-		padding: 0;
-		vertical-align: baseline;
-		color: $color_2;
-		clear: both;
-	}
+	z-index: 999999999999999999;
 	table {
 		border: 0;
-		font-family: $font_family_2;
 		font-size: 100%;
 		font-style: inherit;
 		font-weight: inherit;
@@ -98,7 +81,6 @@ $border_color_1: #0073aa #006799 #006799;
 	}
 	tbody {
 		border: 0;
-		font-family: $font_family_2;
 		font-size: 100%;
 		font-style: inherit;
 		font-weight: inherit;
@@ -110,7 +92,6 @@ $border_color_1: #0073aa #006799 #006799;
 	}
 	tr {
 		border: 0;
-		font-family: $font_family_2;
 		font-size: 100%;
 		font-style: inherit;
 		font-weight: inherit;
@@ -122,7 +103,6 @@ $border_color_1: #0073aa #006799 #006799;
 	}
 	td {
 		border: 0;
-		font-family: $font_family_2;
 		font-size: 100%;
 		font-style: inherit;
 		font-weight: inherit;
@@ -161,7 +141,6 @@ $border_color_1: #0073aa #006799 #006799;
 			background: #fff;
 			color: $color_2;
 			margin: 1em 0 0 0;
-			font-family: $font_family_3;
 		}
 	}
 	ul {
@@ -178,7 +157,6 @@ $border_color_1: #0073aa #006799 #006799;
 		}
 	}
 	#submit-whippet {
-		font-family: $font_family_2;
 		background: #0085ba;
 		border-color: $border_color_1;
 		-webkit-box-shadow: 0 1px 0 #006799;
@@ -232,12 +210,12 @@ $border_color_1: #0073aa #006799 #006799;
 			padding: 0.5em;
 			border-bottom: 1px solid #e5e5e5;
 			border-width: 0 0 1px 0;
-			input[type=checkbox] {
-				outline: none;
-				display: inline-block;
-				margin: 0 0.25em 0 0;
-				width: auto;
-			}
+			// input[type=checkbox] {
+			// 	outline: none;
+			// 	display: inline-block;
+			// 	margin: 0 0.25em 0 0;
+			// 	width: auto;
+			// }
 			span {
 				font-size: 0.8em;
 				>a {
@@ -268,14 +246,16 @@ $border_color_1: #0073aa #006799 #006799;
 				width: auto;
 			}
 			.state-1 {
-				background: hsl(145, 63%, 49%);
+				// background: hsl(145, 63%, 49%);
 				color: $color_3;
 				width: 100%;
+				@apply bg-green-500
 			}
 			.state-0 {
-				background: hsl(5, 78%, 57%);
+				// background: hsl(5, 78%, 57%);
 				color: $color_3;
 				width: 100%;
+				@apply bg-red-500
 			}
 			&:nth-child(1) {
 				text-align: center;
