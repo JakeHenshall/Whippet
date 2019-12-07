@@ -55,7 +55,7 @@ if ( empty( $_GET['tab'] ) ) {
 					<a href="?page=whippet&tab=importExport" class="w-full inline-block p-2 text-blue-500 hover:text-blue-800 font-semibold <?php echo 'importExport' === $_GET['tab'] ? 'nav-tab-active' : ''; ?>">Import/Export</a>
 				</li>
 				<li class="relative">
-					<a href="?page=whippet&tab=support" class="w-full inline-block p-2 text-blue-500 hover:text-blue-800 font-semibold <?php echo 'support' === $_GET['tab'] ? 'nav-tab-active' : ''; ?>">Support</a>
+					<a href="?page=whippet&tab=tutorials" class="w-full inline-block p-2 text-blue-500 hover:text-blue-800 font-semibold <?php echo 'tutorials' === $_GET['tab'] ? 'nav-tab-active' : ''; ?>">Tutorials</a>
 				</li>
 			</ul>
 	  </div>
@@ -64,7 +64,7 @@ if ( empty( $_GET['tab'] ) ) {
       <div class="">
 		<!-- Main Options Tab -->
 			<?php if ( 'options' === $_GET['tab'] ) { ?>
-				<h2 class="text-lg text-bold">Dashboard</h2>
+			<h2 class="text-lg text-bold">Dashboard</h2>
 			<form method="post" action="options.php">
 				<?php settings_fields( 'whippet_options' ); ?>
 				<?php do_settings_sections( 'whippet_options' ); ?>
@@ -85,11 +85,10 @@ if ( empty( $_GET['tab'] ) ) {
 				<h2>Import/Export Whippet Plugin Settings</h2>
 				<?php whippet_settings_page(); ?>
 
-			<!-- Support Tab -->
-			<?php } elseif ( 'support' === $_GET['tab'] ) { ?>
+			<!-- Tutorials Tab -->
+			<?php } elseif ( 'tutorials' === $_GET['tab'] ) { ?>
 
-			<h2>Support</h2>
-			<p>For plugin support and documentation, please visit <a href='https://whippetwp.com/' title='whippet' target='_blank' rel='noopener noreferrer'>Whippet Docs</a>.</p>
+			<?php whippet_tutorials_page(); ?>
 
 			<?php } ?>
 		</div>

@@ -453,8 +453,8 @@ class Whippet {
 	 */
 	public function append_asset() {
 		if ( current_user_can( 'manage_options' ) ) {
-			wp_enqueue_style( 'whippet-st', untrailingslashit(plugins_url( '../dist/css/style.css', __FILE__ )), [], $this->version, false );
-			wp_enqueue_script( 'whippet-sc', untrailingslashit(plugins_url( '../dist/js/app.js', __FILE__ )) , [], $this->version, true );
+			wp_enqueue_style( 'whippet', untrailingslashit(plugins_url( '../dist/css/style-whippet.css', __FILE__ )), [], $this->version, false );
+			wp_enqueue_script( 'whippet', untrailingslashit(plugins_url( '../dist/js/app.js', __FILE__ )) , [], $this->version, true );
 		}
 	}
 

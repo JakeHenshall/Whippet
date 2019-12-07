@@ -67,7 +67,7 @@ function whippet_init_wp_filesystem() {
  */
 function whippet_admin_scripts() {
 
-		wp_register_style( 'whippet-styles', plugins_url( '/dist/css/style.css', __FILE__ ), array(), '0.0.1' );
+		wp_register_style( 'whippet-styles', plugins_url( '/dist/css/style.css', __FILE__ ), array(), '1.0.2' );
 		wp_enqueue_style( 'whippet-styles' );
 
 }
@@ -79,14 +79,15 @@ require plugin_dir_path( __FILE__ ) . '/inc/functions.php';
 require plugin_dir_path( __FILE__ ) . '/inc/script-manager.php';
 require plugin_dir_path( __FILE__ ) . '/inc/save-ga-local.php';
 require plugin_dir_path( __FILE__ ) . '/inc/import-export.php';
+require plugin_dir_path( __FILE__ ) . '/inc/tutorials.php';
 /**
  * Whippet pre-configuration
  * ============================================================================
  */
 register_activation_hook( __FILE__, 'whippet_install' );
 
-global $whippet_db_version;
-$whippet_db_version = 1.1;
+// global $whippet_db_version;
+// $whippet_db_version = 1.3;
 
 /**
  * Install required tabled:
@@ -96,35 +97,54 @@ function whippet_install() {
 	if ( ! wp_next_scheduled( 'update_local_ga' ) ) {
 		wp_schedule_event( time(), 'daily', 'update_local_ga' );
 	}
-	global $wpdb;
-	global $whippet_db_version;
+	// global $wpdb;
+	// $charset_collate = $wpdb->get_charset_collate();
+	// $table_name = $wpdb->prefix . $table;
+	// $sql = '';
 
-	$charset_collate = $wpdb->get_charset_collate();
-	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+	// switch ( $table ) {
+	// 	case 'whippet_disabled':
+	// 		$sql = "CREATE TABLE $table_name (
+	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
+	// 			handler_type tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=css, 1=js',
+	// 			handler_name varchar(128) DEFAULT '' NOT NULL,
+	// 			url varchar(255) DEFAULT '' NOT NULL,
+	// 			PRIMARY KEY (id)
+	// 		) $charset_collate;";
+	// 		break;
+	// 	case 'whippet_enabled':
+	// 		$sql = "CREATE TABLE $table_name (
+	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
+	// 			handler_type tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=css, 1=js',
+	// 			handler_name varchar(128) DEFAULT '' NOT NULL,
+	// 			content_type varchar(64) DEFAULT '' NOT NULL,
+	// 			url varchar(255) DEFAULT '' NOT NULL,
+	// 			PRIMARY KEY (id)
+	// 		) $charset_collate;";
+	// 		break;
+	// 	case 'whippet_p_disabled':
+	// 		$sql = "CREATE TABLE $table_name (
+	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
+	// 			name varchar(128) DEFAULT '' NOT NULL,
+	// 			url varchar(255) DEFAULT '' NOT NULL,
+	// 			regex TEXT NOT NULL,
+	// 			PRIMARY KEY (id)
+	// 		) $charset_collate;";
+	// 		break;
+	// 	case 'whippet_p_enabled':
+	// 		$sql = "CREATE TABLE $table_name (
+	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
+	// 			name varchar(128) DEFAULT '' NOT NULL,
+	// 			content_type varchar(64) DEFAULT '' NOT NULL,
+	// 			url varchar(255) DEFAULT '' NOT NULL,
+	// 			PRIMARY KEY (id)
+	// 		) $charset_collate;";
+	// 		break;
+	// }
 
-	$table_name  = $wpdb->prefix . 'whippet_disabled';
-	$sql_whippet = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		handler_type tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=css, 1=js',
-		handler_name varchar(128) DEFAULT '' NOT NULL,
-		url varchar(255) DEFAULT '' NOT NULL,
-		PRIMARY KEY (id)
-	) $charset_collate;";
-
-	$table_name             = $wpdb->prefix . 'whippet_enabled';
-	$sql_whippet_exceptions = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		handler_type tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=css, 1=js',
-		handler_name varchar(128) DEFAULT '' NOT NULL,
-		content_type varchar(64) DEFAULT '' NOT NULL,
-		url varchar(255) DEFAULT '' NOT NULL,
-		PRIMARY KEY (id)
-	) $charset_collate;";
-
-	dbDelta( $sql_whippet );
-	dbDelta( $sql_whippet_exceptions );
-
-	update_option( 'whippet_db_version', $whippet_db_version );
+	// if ( ! empty( $sql ) ) {
+	// 	dbDelta( $sql );
+	// }
 
 }
 
