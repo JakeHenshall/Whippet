@@ -1,12 +1,10 @@
 /**
- * Tailwind
+ * Tailwind CSS v4
  */
+@import "tailwindcss";
 
- @tailwind base;
-
- @tailwind components;
-
- @tailwind utilities;
+/* Import custom theme configuration */
+@import "../css/theme.css";
 
 // $color_1: #000;
 // $color_2: #444;

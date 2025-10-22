@@ -1,0 +1,19 @@
+/**
+ * Tailwind CSS v4 Theme Configuration
+ * Add your custom theme values here using CSS custom properties
+ */
+
+@theme {
+  /* Custom Colors - Add your brand colors here */
+  --color-primary: #ed6a67;
+  --color-secondary: #4299e1;
+
+  /* Example: Custom spacing */
+  /* --spacing-72: 18rem; */
+
+  /* Example: Custom breakpoints */
+  /* --breakpoint-3xl: 1920px; */
+
+  /* Example: Custom font families */
+  /* --font-display: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; */
+}

@@ -15,12 +15,12 @@
  */
 
 // Import required packages.
-const { mix }           = require( 'laravel-mix' );
-const Clean             = require( 'clean-webpack-plugin' );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
-const ImageminPlugin    = require( 'imagemin-webpack-plugin' ).default;
-const imageminMozjpeg   = require( 'imagemin-mozjpeg' );
-const tailwindcss       = require( 'tailwindcss' );
+const mix = require("laravel-mix");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const ImageminPlugin = require("imagemin-webpack-plugin").default;
+const imageminMozjpeg = require("imagemin-mozjpeg").default;
+const tailwindcss = require("@tailwindcss/postcss");
 
 // require( 'laravel-mix-tailwind' );
 // require( 'laravel-mix-purgecss' );
@@ -39,13 +39,13 @@ const tailwindcss       = require( 'tailwindcss' );
  * Sets the development path to assets. By default, this is the `/resources`
  * folder in the theme.
  */
-const devPath  = 'resources';
+const devPath = "resources";
 
 /*
  * Sets the path to the generated assets. By default, this is the `/dist` folder
  * in the theme. If doing something custom, make sure to change this everywhere.
  */
-mix.setPublicPath( 'dist' );
+mix.setPublicPath("dist");
 
 /*
  * Set Laravel Mix options.
@@ -53,13 +53,10 @@ mix.setPublicPath( 'dist' );
  * @link https://laravel.com/docs/5.6/mix#postcss
  * @link https://laravel.com/docs/5.6/mix#url-processing
  */
-mix.options( {
-	postCss: [
-		require( 'postcss-preset-env' )(),
-		tailwindcss('./tailwind.config.js'),
-	],
-	processCssUrls: false
-} );
+mix.options({
+  postCss: [tailwindcss(), require("postcss-preset-env")()],
+  processCssUrls: false,
+});
 
 /*
  * Builds sources maps for assets.
@@ -82,7 +79,7 @@ mix.version();
  *
  * @link https://laravel.com/docs/5.6/mix#working-with-scripts
  */
-mix.js( `${devPath}/js/app.js`, 'js' );
+mix.js(`${devPath}/js/app.js`, "js");
 
 /*
  * Compile CSS. Mix supports Sass, Less, Stylus, and plain CSS, and has functions
@@ -95,14 +92,17 @@ mix.js( `${devPath}/js/app.js`, 'js' );
 
 // Sass configuration.
 var sassConfig = {
-	outputStyle: 'expanded',
-	indentType: 'tab',
-	indentWidth: 1
+  sassOptions: {
+    outputStyle: "expanded",
+    indentType: "tab",
+    indentWidth: 1,
+  },
 };
 
 // Compile SASS/CSS.
-mix.sass( `${devPath}/scss/style-whippet.scss`, 'css', sassConfig )
-   .sass( `${devPath}/scss/style.scss`,         'css', sassConfig );
+mix
+  .sass(`${devPath}/scss/style-whippet.scss`, "css", sassConfig)
+  .sass(`${devPath}/scss/style.scss`, "css", sassConfig);
 
 // // Compile Tailwind
 // mix.tailwind();
@@ -120,44 +120,42 @@ mix.sass( `${devPath}/scss/style-whippet.scss`, 'css', sassConfig )
  * @link https://laravel.com/docs/5.6/mix#custom-webpack-configuration
  * @link https://webpack.js.org/configuration/
  */
-mix.webpackConfig( {
-	stats: 'minimal',
-	devtool: mix.inProduction() ? false : 'source-map',
-	performance: { hints: false    },
-	externals: { jquery: 'jQuery' },
+mix.webpackConfig({
+  stats: "minimal",
+  devtool: mix.inProduction() ? false : "source-map",
+  performance: { hints: false },
+  externals: { jquery: "jQuery" },
 
-	plugins: [
+  plugins: [
+    // @link https://github.com/johnagan/clean-webpack-plugin
+    new CleanWebpackPlugin(),
 
-		// @link https://github.com/johnagan/clean-webpack-plugin
-		new Clean([ './dist/' ]),
+    // @link https://github.com/webpack-contrib/copy-webpack-plugin
+    new CopyWebpackPlugin({
+      patterns: [{ from: `${devPath}/img`, to: "img", noErrorOnMissing: true }],
+    }),
 
-		// @link https://github.com/webpack-contrib/copy-webpack-plugin
-		new CopyWebpackPlugin( [
-			{ from: `${devPath}/img`,   to: 'img'   }
-		] ),
-
-		// @link https://github.com/Klathmon/imagemin-webpack-plugin
-		new ImageminPlugin( {
-			test: /\.(jpe?g|png|gif|svg)$/i,
-			disable: 'production' !== process.env.NODE_ENV,
-			optipng: { optimizationLevel: 3 },
-			gifsicle: { optimizationLevel: 3 },
-			pngquant: {
-				quality: '65-90',
-				speed: 4
-			},
-			svgo: {
-				plugins: [
-					{ cleanupIDs: false },
-					{ removeViewBox: false },
-					{ removeUnknownsAndDefaults: false }
-				]
-			},
-			plugins: [
-
-				// @link https://github.com/imagemin/imagemin-mozjpeg
-				imageminMozjpeg( { quality: 75 } )
-			]
-		} )
-	]
-} );
+    // @link https://github.com/Klathmon/imagemin-webpack-plugin
+    new ImageminPlugin({
+      test: /\.(jpe?g|png|gif|svg)$/i,
+      disable: "production" !== process.env.NODE_ENV,
+      optipng: { optimizationLevel: 3 },
+      gifsicle: { optimizationLevel: 3 },
+      pngquant: {
+        quality: "65-90",
+        speed: 4,
+      },
+      svgo: {
+        plugins: [
+          { cleanupIDs: false },
+          { removeViewBox: false },
+          { removeUnknownsAndDefaults: false },
+        ],
+      },
+      plugins: [
+        // @link https://github.com/imagemin/imagemin-mozjpeg
+        imageminMozjpeg({ quality: 75 }),
+      ],
+    }),
+  ],
+});
