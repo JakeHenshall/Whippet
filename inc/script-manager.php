@@ -451,11 +451,27 @@ class Whippet {
 	/**
 	 * Loads functionality that allows to enable/disable js/css without site reload
 	 */
-	public function append_asset() {
-		if ( current_user_can( 'manage_options' ) ) {
-			wp_enqueue_style( 'whippet', untrailingslashit(plugins_url( '../dist/css/style-whippet.css', __FILE__ )), [], $this->version, false );
-			wp_enqueue_script( 'whippet', untrailingslashit(plugins_url( '../dist/js/app.js', __FILE__ )) , [], $this->version, true );
+	public function append_asset( $hook_suffix = null ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
 		}
+
+		if ( is_admin() ) {
+			$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+			$allowed_screens = array(
+				'tools_page_whippet',
+				'tools_page_whippet-analytics',
+				'tools_page_whippet-import-export',
+				'tools_page_whippet-tutorials',
+			);
+
+			if ( $screen && ! in_array( $screen->id, $allowed_screens, true ) ) {
+				return;
+			}
+		}
+
+		wp_enqueue_style( 'whippet', untrailingslashit( plugins_url( '../dist/css/style-whippet.css', __FILE__ ) ), array(), $this->version, false );
+		wp_enqueue_script( 'whippet', untrailingslashit( plugins_url( '../dist/js/app.js', __FILE__ ) ), array(), $this->version, true );
 	}
 
 	/**

@@ -154,7 +154,7 @@ function whippet_process_settings_import() {
 			}
 		}
 
-		wp_safe_redirect( admin_url( 'tools.php?page=whippet&tab=importExport' ) );
+		wp_safe_redirect( admin_url( 'tools.php?page=whippet' ) );
 		exit;
 
 	}

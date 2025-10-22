@@ -1,151 +1,61 @@
 <?php
 /**
- * Plugin Name:  Whippet
- * Plugin URI:   https://whippetwp.com/
- * Description:  Speed up your Website using Whippet
- * Version:      1.0.1
- * Author:       Jake Henshall
- * Author URI:   https://jake.hen.sh/all/
- * License:      GPL2
- * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:  whippet
- * Domain Path:  /languages
- */
-
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
-
-/**
- * Add our plugin menu.
+ * Plugin Name: Whippet - Disable Scripts/Styles Conditionally
+ * Plugin URI: https://hashbangcode.com/
+ * Description: Disable scripts and styles on a per-page basis to improve performance
+ * Version: 1.0.2
+ * Author: Jake Henshall
+ * Author URI: https://hashbangcode.com/
+ * License: GPL2
+ * Text Domain: whippet
+ * Domain Path: /languages
  *
- * @var [type]
+ * @package Whippet
  */
-if ( is_admin() ) {
-	add_action( 'admin_menu', 'whippet_menu', 9 );
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
- * Add Submenu
+ * Autoloader for plugin classes
+ *
+ * @param string $class Class name to load.
  */
-function whippet_menu() {
-	$pages = add_submenu_page( 'tools.php', 'Whippet', 'Whippet', 'manage_options', 'whippet', 'whippet_admin' );
-}
+function whippet_autoloader( $class ) {
+	// Project-specific namespace prefix
+	$prefix = 'Whippet\\';
 
-/**
- * Adding settings link
- * @param [type] $links [description]
- */
-function whippet_plugin_add_settings_link( $links ) {
-	$links = array_merge( array(
-		'<a href="' . esc_url( admin_url( 'tools.php?page=whippet' ) ) . '">' . __( 'Settings', 'whippet' ) . '</a>'
-	), $links );
-	return $links;
-}
-add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'whippet_plugin_add_settings_link' );
+	// Base directory for the namespace prefix
+	$base_dir = plugin_dir_path( __FILE__ ) . 'inc/classes/';
 
-/**
- * Plugin admin/settings page.
- */
-function whippet_admin() {
-	include plugin_dir_path( __FILE__ ) . '/inc/admin.php';
-}
+	// Does the class use the namespace prefix?
+	$len = strlen( $prefix );
+	if ( strncmp( $prefix, $class, $len ) !== 0 ) {
+		return;
+	}
 
-/**
- * Initialize WP_Filesystem if hasn't inited yet.
- */
-function whippet_init_wp_filesystem() {
-	global $wp_filesystem;
-	if ( null === $wp_filesystem ) {
-		if ( ! function_exists( 'WP_Filesystem' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-		}
-		WP_Filesystem();
+	// Get the relative class name
+	$relative_class = substr( $class, $len );
+
+	// Replace namespace separators with directory separators
+	$file = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
+
+	// If the file exists, require it
+	if ( file_exists( $file ) ) {
+		require $file;
 	}
 }
+spl_autoload_register( 'whippet_autoloader' );
 
 /**
- * Plugin admin scripts.
+ * Initialize the plugin
+ *
+ * @return Whippet\Plugin
  */
-function whippet_admin_scripts() {
-
-		wp_register_style( 'whippet-styles', plugins_url( '/dist/css/style.css', __FILE__ ), array(), '1.0.2' );
-		wp_enqueue_style( 'whippet-styles' );
-
-}
-add_action( 'admin_enqueue_scripts', 'whippet_admin_scripts' );
-
-// all plugin file includes.
-require plugin_dir_path( __FILE__ ) . '/inc/settings.php';
-require plugin_dir_path( __FILE__ ) . '/inc/functions.php';
-require plugin_dir_path( __FILE__ ) . '/inc/script-manager.php';
-require plugin_dir_path( __FILE__ ) . '/inc/save-ga-local.php';
-require plugin_dir_path( __FILE__ ) . '/inc/import-export.php';
-require plugin_dir_path( __FILE__ ) . '/inc/tutorials.php';
-/**
- * Whippet pre-configuration
- * ============================================================================
- */
-register_activation_hook( __FILE__, 'whippet_install' );
-
-// global $whippet_db_version;
-// $whippet_db_version = 1.3;
-
-/**
- * Install required tabled:
- * whippet_disabled, whippet_enabled
- */
-function whippet_install() {
-	if ( ! wp_next_scheduled( 'update_local_ga' ) ) {
-		wp_schedule_event( time(), 'daily', 'update_local_ga' );
-	}
-	// global $wpdb;
-	// $charset_collate = $wpdb->get_charset_collate();
-	// $table_name = $wpdb->prefix . $table;
-	// $sql = '';
-
-	// switch ( $table ) {
-	// 	case 'whippet_disabled':
-	// 		$sql = "CREATE TABLE $table_name (
-	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-	// 			handler_type tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=css, 1=js',
-	// 			handler_name varchar(128) DEFAULT '' NOT NULL,
-	// 			url varchar(255) DEFAULT '' NOT NULL,
-	// 			PRIMARY KEY (id)
-	// 		) $charset_collate;";
-	// 		break;
-	// 	case 'whippet_enabled':
-	// 		$sql = "CREATE TABLE $table_name (
-	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-	// 			handler_type tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=css, 1=js',
-	// 			handler_name varchar(128) DEFAULT '' NOT NULL,
-	// 			content_type varchar(64) DEFAULT '' NOT NULL,
-	// 			url varchar(255) DEFAULT '' NOT NULL,
-	// 			PRIMARY KEY (id)
-	// 		) $charset_collate;";
-	// 		break;
-	// 	case 'whippet_p_disabled':
-	// 		$sql = "CREATE TABLE $table_name (
-	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-	// 			name varchar(128) DEFAULT '' NOT NULL,
-	// 			url varchar(255) DEFAULT '' NOT NULL,
-	// 			regex TEXT NOT NULL,
-	// 			PRIMARY KEY (id)
-	// 		) $charset_collate;";
-	// 		break;
-	// 	case 'whippet_p_enabled':
-	// 		$sql = "CREATE TABLE $table_name (
-	// 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-	// 			name varchar(128) DEFAULT '' NOT NULL,
-	// 			content_type varchar(64) DEFAULT '' NOT NULL,
-	// 			url varchar(255) DEFAULT '' NOT NULL,
-	// 			PRIMARY KEY (id)
-	// 		) $charset_collate;";
-	// 		break;
-	// }
-
-	// if ( ! empty( $sql ) ) {
-	// 	dbDelta( $sql );
-	// }
-
+function whippet() {
+	return Whippet\Plugin::instance();
 }
 
-ob_start();
+// Start the plugin
+whippet();
